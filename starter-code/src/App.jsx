@@ -14,9 +14,11 @@ class App extends Component {
     this.sortName = this.sortName.bind(this);
     this.delete = this.delete.bind(this);
   }
-  delete() {
+  delete(item) {
+    let newArray = [...this.state.list];
+    newArray.splice(item, 1);
     this.setState({
-      list: [...this.state.list].splice(1)
+      list: newArray
     });
   }
   addRandom() {
@@ -62,8 +64,8 @@ class App extends Component {
                 <th>Popularity</th>
               </tr>
             </thead>
-            {contacts.map(contact => (
-              <tbody>
+            {contacts.map((contact, index) => (
+              <tbody key={index}>
                 <tr>
                   <td>
                     <img src={contact.pictureUrl} width="50px" />
@@ -71,7 +73,14 @@ class App extends Component {
                   <td>{contact.name}</td>
                   <td>{contact.popularity}</td>
                   <td>
-                    <button onClick={this.delete}>Delete</button>
+                    <button
+                      onClick={() => {
+                        console.log(index);
+                        this.delete(index);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               </tbody>
